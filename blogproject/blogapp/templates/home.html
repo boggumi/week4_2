@@ -1,0 +1,47 @@
+<!-- base.html 불러오는 코드 -->
+{%extends 'base.html'%}
+<body>
+{%block contents%}
+
+  <br>
+  <br>
+
+    <!-- 쿼리셋 메소드를 이용하여 blog object들에 접근해야함 -->
+
+  {%for blog in posts%}  <!--한 페이지(블로그 글 3개)를 대상으로 -->
+    <div class="container">
+    <div class="card text-center text-white bg-dark mb-3">
+        <div class="card-body">
+          <h2 class="card-title">{{blog.title}}</h2>
+          <h6 class="card-subtitle mb-2 text-muted">{{blog.pub_date}}</h6>
+          <p class="card-text">{{blog.summary}}</p>
+          <a href="{% url 'detail' blog.id%}" class="card=link">...more</a></p>
+        </div>
+    </div>
+    </div>
+   {%endfor%}
+
+  <!-- firts/previous/현재 of 전체/next/last -->
+  <div class="container">
+    <!-- first previous -->
+  {%if posts.has_previous%}
+    <a href="?page=1">First</a>
+    <a href="?page={{post.previous_page_number}}">Previous</a>
+  {%endif%}
+
+  <!-- 현재 of 전체 ex 3of4 -->
+  <span>{{posts.number}}</span>
+  <span>of</span>
+  <span>{{posts.paginator.num_pages}}</span> 
+  <!-- 중괄호는 단순한 출력-->
+
+  <!-- next last -->
+  {%if posts.has_next%}
+    <a href="?page={{posts.next_page_number}}">Next</a>
+    <a href="?page={{posts.paginator.num_pages}}">last</a>
+  <!-- paginator.num_page = 전체 페이지 수를 반환함 -->
+  {%endif%}
+  </div>
+
+{%endblock%}
+</body>
